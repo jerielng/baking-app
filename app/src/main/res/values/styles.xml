@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RecipeCardText">
+        <item name="android:textSize">35sp</item>
+        <item name="android:textColor">@color/cardText</item>
+    </style>
+
 </resources>
