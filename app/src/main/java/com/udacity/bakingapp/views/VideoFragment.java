@@ -1,4 +1,4 @@
-package com.udacity.bakingapp;
+package com.udacity.bakingapp.views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.udacity.bakingapp.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

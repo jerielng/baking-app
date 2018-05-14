@@ -1,5 +1,4 @@
-package com.udacity.bakingapp;
-
+package com.udacity.bakingapp.views;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -10,6 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.udacity.bakingapp.MainActivity;
+import com.udacity.bakingapp.R;
+import com.udacity.bakingapp.data.RecipeAdapter;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

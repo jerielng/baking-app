@@ -3,6 +3,8 @@ package com.udacity.bakingapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.udacity.bakingapp.views.RecipeListFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String recipeLink

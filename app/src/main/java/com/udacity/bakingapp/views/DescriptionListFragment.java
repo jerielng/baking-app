@@ -1,10 +1,12 @@
-package com.udacity.bakingapp;
+package com.udacity.bakingapp.views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.udacity.bakingapp.R;
 
 public class DescriptionListFragment extends Fragment {
 

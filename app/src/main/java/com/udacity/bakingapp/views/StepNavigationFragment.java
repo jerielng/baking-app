@@ -1,4 +1,4 @@
-package com.udacity.bakingapp;
+package com.udacity.bakingapp.views;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class InstructionFragment extends Fragment {
+import com.udacity.bakingapp.R;
 
-    public InstructionFragment() { }
+public class StepNavigationFragment extends Fragment {
+
+    public StepNavigationFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
