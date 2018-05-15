@@ -2,6 +2,7 @@ package com.udacity.bakingapp;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -34,31 +35,64 @@ public class StepDetailActivity extends AppCompatActivity {
                 intent.getParcelableArrayListExtra(getString(R.string.recipe_step_list));
         mCurrentPosition = intent.getIntExtra(getString(R.string.position_value), 0);
 
-        mInstructionFragment = new InstructionFragment();
         mVideoFragment = new VideoFragment();
+        mInstructionFragment = new InstructionFragment();
         mStepNavigationFragment = new StepNavigationFragment();
 
         getSupportActionBar().setTitle(mRecipeName);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.video_container, mVideoFragment)
-                    .add(R.id.instruction_container, mInstructionFragment)
-                    .add(R.id.navigation_container, mStepNavigationFragment)
-                    .commit();
+            if (getApplicationContext().getResources().getConfiguration().orientation
+                    == Configuration.ORIENTATION_PORTRAIT) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.video_container, mVideoFragment)
+                        .add(R.id.instruction_container, mInstructionFragment)
+                        .add(R.id.navigation_container, mStepNavigationFragment)
+                        .commit();
+            } else {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.video_container, mVideoFragment)
+                        .commit();
+            }
         }
 
         setContentView(R.layout.activity_step_detail);
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(getString(R.string.position_value), mCurrentPosition);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCurrentPosition = savedInstanceState.getInt(getString(R.string.position_value));
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        } else {
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mInstructionFragment = new InstructionFragment();
+            mStepNavigationFragment = new StepNavigationFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.instruction_container, mInstructionFragment)
+                    .add(R.id.navigation_container, mStepNavigationFragment)
+                    .commit();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(mInstructionFragment)
+                    .remove(mStepNavigationFragment)
+                    .commit();
         }
+        setContentView(R.layout.activity_step_detail);
     }
 
     public VideoFragment getmVideoFragment() {

@@ -17,6 +17,7 @@
     <string name="video_param">videoURL</string>
     <string name="thumbnail_param">thumbnailURL</string>
     <string name="ingredients_text">Ingredients:</string>
+    <string name="no_video">No video available</string>
     <string name="next_step">Next</string>
     <string name="prev_step">Previous</string>
     <string name="appwidget_text">EXAMPLE</string>

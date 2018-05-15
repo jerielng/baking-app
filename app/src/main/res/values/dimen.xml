@@ -3,4 +3,5 @@
     <dimen name="card_margin">10dp</dimen>
     <dimen name="card_padding">20dp</dimen>
     <dimen name="card_text_size">18sp</dimen>
+    <dimen name="video_height">250dp</dimen>
 </resources>

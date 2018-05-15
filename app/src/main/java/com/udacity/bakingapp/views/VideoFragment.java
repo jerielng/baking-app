@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -36,6 +37,7 @@ public class VideoFragment extends Fragment {
 
     private SimpleExoPlayer mExoPlayer;
     @BindView(R.id.video_pv) PlayerView mPlayerView;
+    @BindView(R.id.placeholder_text) TextView mPlaceholderText;
 
     private StepDetailActivity mParentActivity;
     private int mCurrentPosition;
@@ -73,7 +75,9 @@ public class VideoFragment extends Fragment {
     public void initializePlayer(String videoUrl) {
         if (videoUrl.equals("")) {
             mPlayerView.setVisibility(View.GONE);
+            mPlaceholderText.setVisibility(View.VISIBLE);
         } else {
+            mPlaceholderText.setVisibility(View.GONE);
             mPlayerView.setVisibility(View.VISIBLE);
             Uri videoUri = Uri.parse(videoUrl);
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -93,7 +97,7 @@ public class VideoFragment extends Fragment {
     }
 
     public void onPositionChanged() {
-        mExoPlayer.release();
+        if (mExoPlayer != null) { mExoPlayer.release(); }
         mCurrentPosition = mParentActivity.getmCurrentPosition();
         initializePlayer(extractVideoLink());
     }
