@@ -3,7 +3,7 @@ package com.udacity.bakingapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Ingredient implements Parcelable{
+public class Ingredient implements Parcelable {
 
     private double mQuantity;
     private String mMeasure;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Recipe implements Parcelable {
     private String mRecipeName;
+    private int mServingSize;
     private ArrayList<Ingredient> mIngredientsList;
     private ArrayList<RecipeStep> mRecipeStepList;
 
@@ -22,9 +23,10 @@ public class Recipe implements Parcelable {
         }
     };
 
-    public Recipe(String recipeName, ArrayList<Ingredient> ingredientsList,
+    public Recipe(String recipeName, int servingSize, ArrayList<Ingredient> ingredientsList,
                   ArrayList<RecipeStep> recipeStepList) {
         mRecipeName = recipeName;
+        mServingSize = servingSize;
         mIngredientsList = ingredientsList;
         mRecipeStepList = recipeStepList;
     }
@@ -32,6 +34,7 @@ public class Recipe implements Parcelable {
     /* I used http://www.parcelabler.com/ for help on creating this constructor. */
     private Recipe(Parcel in) {
         mRecipeName = in.readString();
+        mServingSize = in.readInt();
         if (in.readByte() == 0x01) {
             mIngredientsList = new ArrayList<>();
             in.readList(mIngredientsList, Ingredient.class.getClassLoader());
@@ -55,6 +58,7 @@ public class Recipe implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mRecipeName);
+        dest.writeInt(mServingSize);
         if (mIngredientsList == null) {
             dest.writeByte((byte) (0x00));
         } else {
@@ -75,6 +79,14 @@ public class Recipe implements Parcelable {
 
     public void setmRecipeName(String mRecipeName) {
         this.mRecipeName = mRecipeName;
+    }
+
+    public int getmServingSize() {
+        return mServingSize;
+    }
+
+    public void setmServingSize(int mServingSize) {
+        this.mServingSize = mServingSize;
     }
 
     public ArrayList<Ingredient> getmIngredientsList() {

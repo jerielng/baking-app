@@ -3,6 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.StepNavigationFragment">
+    tools:context=".views.InstructionFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardBack"
+        android:textColor="@color/cardText"
+        android:padding="@dimen/card_padding"
+        android:layout_margin="@dimen/card_margin"
+        android:textSize="@dimen/card_text_size"
+        android:id="@+id/instruction_text"/>
 
 </FrameLayout>

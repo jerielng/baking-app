@@ -52,10 +52,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     public void onBindViewHolder(@NonNull RecipeAdapterViewHolder holder, final int position) {
         final Recipe recipeAt = mRecipeList.get(position);
         holder.mTitleView.setText(recipeAt.getmRecipeName());
+        holder.mTitleView.
+                append("\n" + Integer.toString(recipeAt.getmServingSize()) + " servings");
         holder.mTitleView.setTextAppearance(mContext, R.style.RecipeCardText);
         holder.mTitleView.setBackgroundResource(R.color.cardBack);
         holder.mTitleView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        holder.mTitleView.setPadding(0, 200, 0, 200);
+        holder.mTitleView.setPadding(0, 150, 0, 150);
         LinearLayout.LayoutParams cardParams =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -83,6 +85,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
             for (int i = 0; i < recipeJson.length(); i++) {
                 String newRecipeName = recipeJson.getJSONObject(i)
                         .getString(mContext.getString(R.string.name_param));
+                int newServingSize = recipeJson.getJSONObject(i)
+                        .getInt(mContext.getString(R.string.servings_param));
                 JSONArray ingredientsJson
                         = recipeJson.getJSONObject(i)
                         .getJSONArray(mContext.getString(R.string.ingredients_param));
@@ -121,7 +125,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
                             newDescription, newVideoUrl, newThumbnailUrl);
                     mRecipeStepList.add(newRecipeStep);
                 }
-                mRecipeList.add(new Recipe(newRecipeName, mIngredientList, mRecipeStepList));
+                mRecipeList.add(new Recipe
+                        (newRecipeName, newServingSize, mIngredientList, mRecipeStepList));
             }
         } catch (JSONException e) {
             e.printStackTrace();

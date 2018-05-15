@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_margin">10dp</dimen>
-    <dimen name="ingredient_card_padding">20dp</dimen>
-    <dimen name="ingredient_text_size">15sp</dimen>
+    <dimen name="card_padding">20dp</dimen>
+    <dimen name="card_text_size">18sp</dimen>
 </resources>

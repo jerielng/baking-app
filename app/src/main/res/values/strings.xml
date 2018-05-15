@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Baking App</string>
     <string name="recipe_object">recipe_object</string>
+    <string name="recipe_name">recipe_name</string>
+    <string name="recipe_step_list">recipe_step_list</string>
+    <string name="position_value">position_value</string>
     <string name="name_param">name</string>
+    <string name="servings_param">servings</string>
     <string name="ingredients_param">ingredients</string>
     <string name="steps_param">steps</string>
     <string name="quantity_param">quantity</string>
@@ -13,4 +17,8 @@
     <string name="video_param">videoURL</string>
     <string name="thumbnail_param">thumbnailURL</string>
     <string name="ingredients_text">Ingredients:</string>
+    <string name="next_step">Next</string>
+    <string name="prev_step">Previous</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

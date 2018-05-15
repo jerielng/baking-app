@@ -11,7 +11,6 @@ import com.udacity.bakingapp.DetailActivity;
 import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.model.Ingredient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.BindView;

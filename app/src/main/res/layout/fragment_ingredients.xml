@@ -8,10 +8,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/ingredient_card_padding"
+        android:padding="@dimen/card_padding"
         android:textColor="@color/cardText"
         android:background="@color/cardBack"
-        android:textSize="@dimen/ingredient_text_size"
+        android:textSize="@dimen/card_text_size"
         android:layout_margin="@dimen/card_margin"
         android:id="@+id/ingredients_text"/>
 
