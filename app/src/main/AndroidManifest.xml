@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity" />
-        <activity android:name=".StepDetailActivity" />
 
         <receiver android:name=".RecipeWidgetProvider">
             <intent-filter>

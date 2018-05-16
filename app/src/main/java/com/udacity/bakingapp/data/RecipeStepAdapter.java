@@ -1,7 +1,6 @@
 package com.udacity.bakingapp.data;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.udacity.bakingapp.DetailActivity;
 import com.udacity.bakingapp.R;
-import com.udacity.bakingapp.StepDetailActivity;
 import com.udacity.bakingapp.model.RecipeStep;
 
 import java.util.ArrayList;
@@ -63,14 +62,10 @@ public class RecipeStepAdapter
         holder.mStepView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent stepDetailIntent = new Intent(mContext, StepDetailActivity.class);
-                stepDetailIntent.putExtra
-                        (mContext.getString(R.string.recipe_name), mRecipeName);
-                stepDetailIntent.putExtra
-                        (mContext.getString(R.string.recipe_step_list), mRecipeStepList);
-                stepDetailIntent.putExtra
-                        (mContext.getString(R.string.position_value), position);
-                mContext.startActivity(stepDetailIntent);
+                DetailActivity currentActivity = (DetailActivity) mContext;
+                currentActivity.setmCurrentPosition(position);
+                currentActivity.openInstructionFragment();
+
             }
         });
     }

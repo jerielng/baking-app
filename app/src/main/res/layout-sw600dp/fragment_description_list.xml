@@ -12,7 +12,7 @@
         android:padding="@dimen/card_padding"
         android:textColor="@color/cardText"
         android:background="@color/cardBack"
-        android:textSize="@dimen/card_text_size"
+        android:textSize="@dimen/card_text_size_tablet"
         android:layout_margin="@dimen/card_margin"
         android:layout_weight="1"
         android:id="@+id/ingredients_text"/>

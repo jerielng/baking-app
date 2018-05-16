@@ -7,7 +7,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/video_height"
+        android:layout_height="@dimen/video_height_tablet"
         android:layout_alignParentTop="true"
         android:id="@+id/video_container">
         <com.google.android.exoplayer2.ui.PlayerView
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/no_video"
-            android:textSize="@dimen/card_text_size"
+            android:textSize="@dimen/card_text_size_tablet"
             android:textAlignment="center"
             android:gravity="center"
             android:paddingTop="@dimen/card_padding"
@@ -28,12 +28,12 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/cardBack"
         android:textColor="@color/cardText"
         android:padding="@dimen/card_padding"
         android:layout_margin="@dimen/card_margin"
-        android:textSize="@dimen/card_text_size"
+        android:textSize="@dimen/card_text_size_tablet"
         android:gravity="center"
         android:layout_below="@id/video_container"
         android:layout_above="@id/navigation_container"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="@dimen/card_text_size"
+            android:textSize="@dimen/card_text_size_tablet"
             android:id="@+id/current_step_text"/>
         <Button
             android:layout_width="wrap_content"

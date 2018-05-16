@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">Baking App</string>
+
+    <!--Strings for dynamic UI interactions-->
     <string name="recipe_object">recipe_object</string>
     <string name="recipe_name">recipe_name</string>
     <string name="recipe_step_list">recipe_step_list</string>
     <string name="position_value">position_value</string>
+    <string name="recipe_list_fragment">recipe_list_fragment</string>
+    <string name="description_list_fragment">description_list_fragment</string>
+    <string name="instruction_fragment">instruction_fragment</string>
+
+    <!--Strings for retrieving JSON data-->
     <string name="name_param">name</string>
     <string name="servings_param">servings</string>
     <string name="ingredients_param">ingredients</string>
@@ -16,6 +23,7 @@
     <string name="description_param">description</string>
     <string name="video_param">videoURL</string>
     <string name="thumbnail_param">thumbnailURL</string>
+
     <string name="ingredients_text">Ingredients:</string>
     <string name="no_video">No video available</string>
     <string name="next_step">Next</string>
