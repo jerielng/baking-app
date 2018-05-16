@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,8 +47,14 @@ public class RecipeListFragment extends Fragment {
 
         mCardRecyclerView.setHasFixedSize(true);
 
-        mCardLayoutManager = new LinearLayoutManager(getContext());
-        mCardRecyclerView.setLayoutManager(mCardLayoutManager);
+        if (MainActivity.isTablet) {
+            mCardLayoutManager = new GridLayoutManager(getContext(), 3,
+                    LinearLayoutManager.VERTICAL, false);
+            mCardRecyclerView.setLayoutManager(mCardLayoutManager);
+        } else {
+            mCardLayoutManager = new LinearLayoutManager(getContext());
+            mCardRecyclerView.setLayoutManager(mCardLayoutManager);
+        }
 
         new FetchRecipesTask().execute();
 
