@@ -13,7 +13,6 @@ import com.udacity.bakingapp.model.Ingredient;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Implementation of App Widget functionality.
