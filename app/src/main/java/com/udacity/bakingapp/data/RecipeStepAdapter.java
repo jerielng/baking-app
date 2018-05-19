@@ -49,6 +49,7 @@ public class RecipeStepAdapter
     @Override
     public void onBindViewHolder(@NonNull RecipeStepAdapterViewHolder holder, final int position) {
         final RecipeStep recipeStepAt = mRecipeStepList.get(position);
+        holder.mStepView.setContentDescription(recipeStepAt.getmShortDescription());
         holder.mStepView.setText(recipeStepAt.getmShortDescription());
         holder.mStepView.setTextAppearance(mContext, R.style.StepCardText);
         holder.mStepView.setBackgroundResource(R.color.cardBack);

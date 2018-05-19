@@ -1,5 +1,6 @@
 package com.udacity.bakingapp.data;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.udacity.bakingapp.DetailActivity;
 import com.udacity.bakingapp.R;
+import com.udacity.bakingapp.RecipeWidgetProvider;
 import com.udacity.bakingapp.model.Ingredient;
 import com.udacity.bakingapp.model.Recipe;
 import com.udacity.bakingapp.model.RecipeStep;
@@ -66,9 +68,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
         holder.mTitleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent widgetIntent = new Intent(mContext, RecipeWidgetProvider.class);
+                widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                widgetIntent.putExtra
+                        (mContext.getString(R.string.recipe_name), recipeAt.getmRecipeName());
+                widgetIntent.putExtra
+                        (mContext.getString
+                                (R.string.ingredients_text), recipeAt.getmIngredientsList());
                 Intent detailIntent = new Intent(mContext, DetailActivity.class);
                 detailIntent.putExtra
                         (mContext.getString(R.string.recipe_object), recipeAt);
+                mContext.sendBroadcast(widgetIntent);
                 mContext.startActivity(detailIntent);
             }
         });

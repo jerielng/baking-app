@@ -47,6 +47,7 @@ public class InstructionFragment extends Fragment {
 
     private DetailActivity mParentActivity;
     private int mCurrentPosition;
+    private long mLastPlayerPosition;
 
     public InstructionFragment() { }
 
@@ -76,6 +77,9 @@ public class InstructionFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(getString(R.string.position_value), mCurrentPosition);
+        if (mExoPlayer != null) {
+            outState.putLong(getString(R.string.player_position), mExoPlayer.getCurrentPosition());
+        }
     }
 
     @Override
@@ -83,6 +87,7 @@ public class InstructionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(getString(R.string.position_value));
+            mLastPlayerPosition = savedInstanceState.getLong(getString(R.string.player_position));
             onPositionChanged(mCurrentPosition);
         }
     }
@@ -95,6 +100,7 @@ public class InstructionFragment extends Fragment {
                     mCurrentPosition--;
                 }
                 updateViews();
+                resetPlayerPosition();
 
                 //Signals to other Activity Fragments that position has changed
                 onPositionChanged(mCurrentPosition);
@@ -108,6 +114,7 @@ public class InstructionFragment extends Fragment {
                     mCurrentPosition++;
                 }
                 updateViews();
+                resetPlayerPosition();
 
                 //Signals to other Activity Fragments that position has changed
                 onPositionChanged(mCurrentPosition);
@@ -120,6 +127,7 @@ public class InstructionFragment extends Fragment {
 
         if (mExoPlayer != null) { mExoPlayer.release(); }
         initializePlayer(extractVideoLink());
+        mExoPlayer.seekTo(mLastPlayerPosition);
 
         /* Sets text for instruction TextView */
         if (mCurrentPosition > -1 &&
@@ -178,5 +186,9 @@ public class InstructionFragment extends Fragment {
                     .createMediaSource(videoUri);
             mExoPlayer.prepare(mediaSource);
         }
+    }
+
+    public void resetPlayerPosition() {
+        mLastPlayerPosition = 0;
     }
 }

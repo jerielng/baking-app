@@ -10,7 +10,6 @@ import com.udacity.bakingapp.model.RecipeStep;
 import com.udacity.bakingapp.views.DescriptionListFragment;
 import com.udacity.bakingapp.views.InstructionFragment;
 
-
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
@@ -32,12 +31,14 @@ public class DetailActivity extends AppCompatActivity {
 
         //Retrieves Recipe information from MainActivity
         Intent intent = getIntent();
-        Recipe recipe = intent.getParcelableExtra(getString(R.string.recipe_object));
-        mRecipeName = recipe.getmRecipeName();
-        getSupportActionBar().setTitle(mRecipeName);
+        if (intent.hasExtra(getString(R.string.recipe_object))) {
+            Recipe recipe = intent.getParcelableExtra(getString(R.string.recipe_object));
+            mRecipeName = recipe.getmRecipeName();
+            getSupportActionBar().setTitle(mRecipeName);
 
-        mIngredientList = recipe.getmIngredientsList();
-        mRecipeStepList = recipe.getmRecipeStepList();
+            mIngredientList = recipe.getmIngredientsList();
+            mRecipeStepList = recipe.getmRecipeStepList();
+        }
 
         mInstructionFragment = new InstructionFragment();
         mDescriptionListFragment = new DescriptionListFragment();

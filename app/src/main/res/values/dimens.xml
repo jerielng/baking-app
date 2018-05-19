@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <dimen name="card_margin">10dp</dimen>
+    <dimen name="card_padding">15dp</dimen>
+    <dimen name="card_text_size">15sp</dimen>
+    <dimen name="card_text_size_tablet">18sp</dimen>
+    <dimen name="video_height">250dp</dimen>
+    <dimen name="video_height_tablet">550dp</dimen>
     <!--
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
-
+    <dimen name="widget_padding">20dp</dimen>
+    <dimen name="widget_recipe_text">24sp</dimen>
 </resources>
