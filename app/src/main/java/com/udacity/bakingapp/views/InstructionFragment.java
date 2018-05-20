@@ -27,6 +27,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 import com.udacity.bakingapp.DetailActivity;
 import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.model.RecipeStep;
@@ -39,7 +40,6 @@ public class InstructionFragment extends Fragment {
     private SimpleExoPlayer mExoPlayer;
     @BindView(R.id.video_pv) PlayerView mPlayerView;
     @BindView(R.id.thumbnail_container) ImageView mThumbnailView;
-    @BindView(R.id.placeholder_text) TextView mPlaceholderText;
 
     @BindView(R.id.instruction_text) TextView mInstructionText;
 
@@ -71,6 +71,7 @@ public class InstructionFragment extends Fragment {
         String instructionString =
                 mParentActivity.getmRecipeStepList().get(mCurrentPosition).getmDescription();
         mInstructionText.setText(instructionString);
+        setThumbnailView(extractThumbnailLink());
         initializePlayer(extractVideoLink());
         setListeners();
         updateViews();
@@ -184,7 +185,9 @@ public class InstructionFragment extends Fragment {
         //Update visibility of buttons based on position in recipe step list
         if (mCurrentPosition == 0) {
             mPreviousButton.setVisibility(View.INVISIBLE);
+            mNextButton.setVisibility(View.VISIBLE);
         } else if (mCurrentPosition == mParentActivity.getmRecipeStepList().size() - 1) {
+            mPreviousButton.setVisibility(View.VISIBLE);
             mNextButton.setVisibility(View.INVISIBLE);
         } else {
             mPreviousButton.setVisibility(View.VISIBLE);
@@ -196,18 +199,21 @@ public class InstructionFragment extends Fragment {
         RecipeStep currentStep = mParentActivity.getmRecipeStepList().get(mCurrentPosition);
         String videoUrl = currentStep.getmVideoUrl();
         if (TextUtils.isEmpty(videoUrl)) {
-            videoUrl = currentStep.getmThumbnailUrl();
+            videoUrl = currentStep.getmThumbnailUrl(); //Check if thumbnail URL contains video
         }
         return videoUrl;
+    }
+
+    public String extractThumbnailLink() {
+        RecipeStep currentStep = mParentActivity.getmRecipeStepList().get(mCurrentPosition);
+        return currentStep.getmThumbnailUrl();
     }
 
     public void initializePlayer(String videoUrl) {
         if (TextUtils.isEmpty(videoUrl)) {
             mPlayerView.setVisibility(View.GONE);
-            mThumbnailView.setVisibility(View.GONE);
-            mPlaceholderText.setVisibility(View.VISIBLE);
+            mThumbnailView.setVisibility(View.VISIBLE);
         } else {
-            mPlaceholderText.setVisibility(View.GONE);
             mThumbnailView.setVisibility(View.GONE);
             mPlayerView.setVisibility(View.VISIBLE);
             Uri videoUri = Uri.parse(videoUrl);
@@ -225,6 +231,14 @@ public class InstructionFragment extends Fragment {
                     .createMediaSource(videoUri);
             mExoPlayer.prepare(mediaSource);
         }
+    }
+
+    public void setThumbnailView(String thumbnailUrl) {
+        Picasso.get()
+                .load(Uri.parse(thumbnailUrl))
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
+                .into(mThumbnailView);
     }
 
     public void releaseExoPlayer() {

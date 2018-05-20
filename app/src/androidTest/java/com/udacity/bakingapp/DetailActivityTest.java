@@ -46,7 +46,8 @@ public class DetailActivityTest {
     public void testIngredientsView() {
         testIngredients.add(testIngredient);
         testSteps.add(testStep);
-        Recipe testRecipe = new Recipe("Cake", 8, testIngredients, testSteps);
+        Recipe testRecipe =
+                new Recipe("Cake", 8, testIngredients, testSteps, "");
         Intent testIntent = new Intent();
         testIntent.putExtra(mContext.getString(R.string.recipe_object), testRecipe);
         mActivityRule.launchActivity(testIntent);
@@ -57,7 +58,8 @@ public class DetailActivityTest {
     public void checkStepElement() {
         testIngredients.add(testIngredient);
         testSteps.add(testStep);
-        Recipe testRecipe = new Recipe("Cake", 8, testIngredients, testSteps);
+        Recipe testRecipe =
+                new Recipe("Cake", 8, testIngredients, testSteps, "");
         Intent testIntent = new Intent();
         testIntent.putExtra(mContext.getString(R.string.recipe_object), testRecipe);
         mActivityRule.launchActivity(testIntent);
@@ -69,7 +71,8 @@ public class DetailActivityTest {
     public void checkStepOpen() {
         testIngredients.add(testIngredient);
         testSteps.add(testStep);
-        Recipe testRecipe = new Recipe("Cake", 8, testIngredients, testSteps);
+        Recipe testRecipe =
+                new Recipe("Cake", 8, testIngredients, testSteps, "");
         Intent testIntent = new Intent();
         testIntent.putExtra(mContext.getString(R.string.recipe_object), testRecipe);
         mActivityRule.launchActivity(testIntent);

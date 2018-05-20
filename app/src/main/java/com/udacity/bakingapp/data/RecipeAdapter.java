@@ -34,16 +34,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
 
     public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mViewContainer;
-        public ImageView mThumbnailView;
+        public ImageView mImageView;
         public TextView mTitleView;
         public RecipeAdapterViewHolder(LinearLayout view) {
             super(view);
 
             mViewContainer = view;
             mTitleView = new TextView(mContext);
-            mThumbnailView = new ImageView(mContext);
+            mImageView = new ImageView(mContext);
 
-            mViewContainer.addView(mThumbnailView);
+            mViewContainer.addView(mImageView);
             mViewContainer.addView(mTitleView);
         }
     }
@@ -73,6 +73,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     public void onBindViewHolder(@NonNull RecipeAdapterViewHolder holder, final int position) {
         final Recipe recipeAt = mRecipeList.get(position);
 
+        /*Image loading */
+        LinearLayout.LayoutParams imageParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageParams.weight = 1f;
+        imageParams.gravity = Gravity.CENTER;
+        holder.mImageView.setLayoutParams(imageParams);
+        Picasso.get()
+                .load(Uri.parse(recipeAt.getmImageUrl()))
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
+                .into(holder.mImageView);
+
         /* Recipe text loading */
         LinearLayout.LayoutParams textParams =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -85,19 +98,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
                 append("\n" + Integer.toString(recipeAt.getmServingSize()) + " servings");
         holder.mTitleView.setTextAppearance(mContext, R.style.RecipeCardText);
         holder.mTitleView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-
-        /*Image loading */
-        LinearLayout.LayoutParams imageParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageParams.weight = 1f;
-        imageParams.gravity = Gravity.CENTER;
-        holder.mThumbnailView.setLayoutParams(imageParams);
-        Picasso.get()
-                .load(Uri.parse(recipeAt.getmImageUrl()))
-                .placeholder(R.drawable.default_icon)
-                .error(R.drawable.default_icon)
-                .into(holder.mThumbnailView);
 
         /* Setting click listeners */
         holder.mViewContainer.setOnClickListener(new View.OnClickListener() {
