@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -36,6 +38,7 @@ public class InstructionFragment extends Fragment {
 
     private SimpleExoPlayer mExoPlayer;
     @BindView(R.id.video_pv) PlayerView mPlayerView;
+    @BindView(R.id.thumbnail_container) ImageView mThumbnailView;
     @BindView(R.id.placeholder_text) TextView mPlaceholderText;
 
     @BindView(R.id.instruction_text) TextView mInstructionText;
@@ -48,6 +51,7 @@ public class InstructionFragment extends Fragment {
     private DetailActivity mParentActivity;
     private int mCurrentPosition;
     private long mLastPlayerPosition;
+    private boolean mLastPlayerPlayState;
 
     public InstructionFragment() { }
 
@@ -74,11 +78,41 @@ public class InstructionFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (mExoPlayer == null) {
+            initializePlayer(extractVideoLink());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mExoPlayer == null) {
+            initializePlayer(extractVideoLink());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releaseExoPlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releaseExoPlayer();
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(getString(R.string.position_value), mCurrentPosition);
         if (mExoPlayer != null) {
             outState.putLong(getString(R.string.player_position), mExoPlayer.getCurrentPosition());
+            outState.putBoolean(getString(R.string.player_play_state),
+                    mExoPlayer.getPlayWhenReady());
         }
     }
 
@@ -88,6 +122,8 @@ public class InstructionFragment extends Fragment {
         if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(getString(R.string.position_value));
             mLastPlayerPosition = savedInstanceState.getLong(getString(R.string.player_position));
+            mLastPlayerPlayState = savedInstanceState.
+                    getBoolean(getString(R.string.player_play_state));
             onPositionChanged(mCurrentPosition);
         }
     }
@@ -100,7 +136,7 @@ public class InstructionFragment extends Fragment {
                     mCurrentPosition--;
                 }
                 updateViews();
-                resetPlayerPosition();
+                resetPlayerState();
 
                 //Signals to other Activity Fragments that position has changed
                 onPositionChanged(mCurrentPosition);
@@ -114,7 +150,7 @@ public class InstructionFragment extends Fragment {
                     mCurrentPosition++;
                 }
                 updateViews();
-                resetPlayerPosition();
+                resetPlayerState();
 
                 //Signals to other Activity Fragments that position has changed
                 onPositionChanged(mCurrentPosition);
@@ -125,9 +161,10 @@ public class InstructionFragment extends Fragment {
     public void onPositionChanged(int newPosition) {
         mCurrentPosition = newPosition;
 
-        if (mExoPlayer != null) { mExoPlayer.release(); }
+        releaseExoPlayer();
         initializePlayer(extractVideoLink());
         mExoPlayer.seekTo(mLastPlayerPosition);
+        mExoPlayer.setPlayWhenReady(mLastPlayerPlayState);
 
         /* Sets text for instruction TextView */
         if (mCurrentPosition > -1 &&
@@ -158,18 +195,20 @@ public class InstructionFragment extends Fragment {
     public String extractVideoLink() {
         RecipeStep currentStep = mParentActivity.getmRecipeStepList().get(mCurrentPosition);
         String videoUrl = currentStep.getmVideoUrl();
-        if (videoUrl.equals("")) {
+        if (TextUtils.isEmpty(videoUrl)) {
             videoUrl = currentStep.getmThumbnailUrl();
         }
         return videoUrl;
     }
 
     public void initializePlayer(String videoUrl) {
-        if (videoUrl.equals("")) {
+        if (TextUtils.isEmpty(videoUrl)) {
             mPlayerView.setVisibility(View.GONE);
+            mThumbnailView.setVisibility(View.GONE);
             mPlaceholderText.setVisibility(View.VISIBLE);
         } else {
             mPlaceholderText.setVisibility(View.GONE);
+            mThumbnailView.setVisibility(View.GONE);
             mPlayerView.setVisibility(View.VISIBLE);
             Uri videoUri = Uri.parse(videoUrl);
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -188,7 +227,12 @@ public class InstructionFragment extends Fragment {
         }
     }
 
-    public void resetPlayerPosition() {
+    public void releaseExoPlayer() {
+        if (mExoPlayer != null) { mExoPlayer.release(); }
+    }
+
+    public void resetPlayerState() {
         mLastPlayerPosition = 0;
+        mLastPlayerPlayState = false;
     }
 }

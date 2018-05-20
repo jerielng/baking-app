@@ -10,6 +10,7 @@ public class Recipe implements Parcelable {
     private int mServingSize;
     private ArrayList<Ingredient> mIngredientsList;
     private ArrayList<RecipeStep> mRecipeStepList;
+    private String mImageUrl;
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
         @Override
@@ -24,17 +25,19 @@ public class Recipe implements Parcelable {
     };
 
     public Recipe(String recipeName, int servingSize, ArrayList<Ingredient> ingredientsList,
-                  ArrayList<RecipeStep> recipeStepList) {
+                  ArrayList<RecipeStep> recipeStepList, String imageUrl) {
         mRecipeName = recipeName;
         mServingSize = servingSize;
         mIngredientsList = ingredientsList;
         mRecipeStepList = recipeStepList;
+        mImageUrl = imageUrl;
     }
 
     /* I used http://www.parcelabler.com/ for help on creating this constructor. */
     private Recipe(Parcel in) {
         mRecipeName = in.readString();
         mServingSize = in.readInt();
+        mImageUrl = in.readString();
         if (in.readByte() == 0x01) {
             mIngredientsList = new ArrayList<>();
             in.readList(mIngredientsList, Ingredient.class.getClassLoader());
@@ -59,6 +62,7 @@ public class Recipe implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mRecipeName);
         dest.writeInt(mServingSize);
+        dest.writeString(mImageUrl);
         if (mIngredientsList == null) {
             dest.writeByte((byte) (0x00));
         } else {
@@ -103,5 +107,13 @@ public class Recipe implements Parcelable {
 
     public void setmRecipeStepList(ArrayList<RecipeStep> mRecipeStepList) {
         this.mRecipeStepList = mRecipeStepList;
+    }
+
+    public String getmImageUrl() {
+        return mImageUrl;
+    }
+
+    public void setmImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
     }
 }

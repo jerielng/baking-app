@@ -3,13 +3,17 @@ package com.udacity.bakingapp.data;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.bakingapp.DetailActivity;
 import com.udacity.bakingapp.R;
 import com.udacity.bakingapp.RecipeWidgetProvider;
@@ -29,10 +33,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     private ArrayList<Recipe> mRecipeList;
 
     public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout mViewContainer;
+        public ImageView mThumbnailView;
         public TextView mTitleView;
-        public RecipeAdapterViewHolder(TextView view) {
+        public RecipeAdapterViewHolder(LinearLayout view) {
             super(view);
-            mTitleView = view;
+
+            mViewContainer = view;
+            mTitleView = new TextView(mContext);
+            mThumbnailView = new ImageView(mContext);
+
+            mViewContainer.addView(mThumbnailView);
+            mViewContainer.addView(mTitleView);
         }
     }
 
@@ -45,27 +57,50 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
     @NonNull
     @Override
     public RecipeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        TextView titleView = new TextView(mContext);
-        RecipeAdapterViewHolder recipeCard = new RecipeAdapterViewHolder(titleView);
+        LinearLayout recipeViewContainer = new LinearLayout(mContext);
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        cardParams.setMargins(20, 20, 20, 20);
+        recipeViewContainer.setLayoutParams(cardParams);
+        recipeViewContainer.setPadding(0, 50, 0, 50);
+        recipeViewContainer.setBackgroundResource(R.color.cardBack);
+        RecipeAdapterViewHolder recipeCard = new RecipeAdapterViewHolder(recipeViewContainer);
         return recipeCard;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapterViewHolder holder, final int position) {
         final Recipe recipeAt = mRecipeList.get(position);
+
+        /* Recipe text loading */
+        LinearLayout.LayoutParams textParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+        textParams.weight = 2f;
+        textParams.gravity = Gravity.CENTER;
+        holder.mTitleView.setLayoutParams(textParams);
         holder.mTitleView.setText(recipeAt.getmRecipeName());
         holder.mTitleView.
                 append("\n" + Integer.toString(recipeAt.getmServingSize()) + " servings");
         holder.mTitleView.setTextAppearance(mContext, R.style.RecipeCardText);
-        holder.mTitleView.setBackgroundResource(R.color.cardBack);
         holder.mTitleView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        holder.mTitleView.setPadding(0, 150, 0, 150);
-        LinearLayout.LayoutParams cardParams =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+
+        /*Image loading */
+        LinearLayout.LayoutParams imageParams =
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-        cardParams.setMargins(20, 20, 20, 20);
-        holder.mTitleView.setLayoutParams(cardParams);
-        holder.mTitleView.setOnClickListener(new View.OnClickListener() {
+        imageParams.weight = 1f;
+        imageParams.gravity = Gravity.CENTER;
+        holder.mThumbnailView.setLayoutParams(imageParams);
+        Picasso.get()
+                .load(Uri.parse(recipeAt.getmImageUrl()))
+                .placeholder(R.drawable.default_icon)
+                .error(R.drawable.default_icon)
+                .into(holder.mThumbnailView);
+
+        /* Setting click listeners */
+        holder.mViewContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent widgetIntent = new Intent(mContext, RecipeWidgetProvider.class);
@@ -135,8 +170,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdap
                             newDescription, newVideoUrl, newThumbnailUrl);
                     mRecipeStepList.add(newRecipeStep);
                 }
+                String newImageUrl = recipeJson.getJSONObject(i)
+                        .getString(mContext.getString(R.string.image_param));
                 mRecipeList.add(new Recipe
-                        (newRecipeName, newServingSize, mIngredientList, mRecipeStepList));
+                        (newRecipeName, newServingSize,
+                                mIngredientList, mRecipeStepList, newImageUrl));
             }
         } catch (JSONException e) {
             e.printStackTrace();

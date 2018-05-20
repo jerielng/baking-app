@@ -52,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
                             getString(R.string.description_list_fragment))
                     .commit();
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_detail);
     }
 
@@ -65,6 +66,16 @@ public class DetailActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mCurrentPosition = savedInstanceState.getInt(getString(R.string.position_value));
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            finish();
+        }
+        return true;
     }
 
     public void openInstructionFragment() {
